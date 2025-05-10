@@ -3,6 +3,9 @@
 import styled from "styled-components";
 
 import Input from "@/components/form/Input";
+import H1 from "@/components/typography/H1";
+import H3 from "@/components/typography/H3";
+import Button from "@/components/form/Button";
 
 const Container = styled.div`
     padding: 0;
@@ -20,6 +23,18 @@ const Container = styled.div`
 const Form = styled.form`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 25px;
+`
+
+const StyleH1 = styled(H1)`
+    margin-right: 170px;
+`
+
+const TextContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-right: 100px;
 `
 
 export default function LoginPage() {
@@ -27,7 +42,14 @@ export default function LoginPage() {
         <Container>
             <img src="logo.png" alt="" />
             <Form>
-                <Input placeholder="Usuario"/>
+                <StyleH1>Faça Login!</StyleH1>
+                <Input placeholder="Usuário"/>
+                <Input placeholder="Senha"/>
+                <TextContainer>
+                    <H3>Ainda não é cadastrado?</H3>
+                    <H3 color="#FF7000">Cadastre-se</H3>
+                </TextContainer>
+                <Button>Login</Button>
             </Form>
         </Container>
     )
