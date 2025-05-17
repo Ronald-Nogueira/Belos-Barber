@@ -36,14 +36,37 @@ const CheckBoxContainer = styled.div`
 
 export default function SignupPage() {
     const { register, handleSubmit, reset } = useForm()
+    const [ clienteSelected, isClienteSelected ] = useState(false)
+    const [ barbeiroSelected, isBarbeiroSelected ] = useState(false)
 
     const onSubmit = async (data) => {
+        let url = ''
+
+        if (clienteSelected) {
+          url = 'http://localhost:3001/clientes'
+        } else if (barbeiroSelected) {
+          url = 'http://localhost:3001/profissionais'
+        } else {
+          alert("Por favor, selecione cliente ou profissional")
+          return;
+        }
+
         try {
             const formData = { ...data }
-            await axios.post('http://localhost:3000/clientes', formData)
+            await axios.post(url, formData)
         } catch (error) {
             console.error('Erro ao enviar os dados: ', error)
         }
+    }
+
+    const handleSelectedCliente = () => {
+      isClienteSelected(!clienteSelected)
+      isBarbeiroSelected(false)
+    }
+
+    const handleSelectedBarbeiro = () => {
+      isBarbeiroSelected(!barbeiroSelected)
+      isClienteSelected(false)
     }
 
   return (
@@ -51,13 +74,13 @@ export default function SignupPage() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <H1>Faça seu cadastro!</H1>
         <CheckBoxContainer>
-            <Checkbox name="Cliente" value="sim"/>
-            <Checkbox name="Barbeiro" value="sim"/>
+            <Checkbox name="Cliente" value="sim" onClick={handleSelectedCliente} checked={clienteSelected}/>
+            <Checkbox name="Barbeiro" value="sim" onClick={handleSelectedBarbeiro} checked={barbeiroSelected}/>
         </CheckBoxContainer>
-        <Input placeholder="Nome" {...register("Nome")} />
-        <Input placeholder="E-mail" {...register("Email")}/>
-        <Input placeholder="Telefone" {...register("Telefone")} />
-        <Input placeholder="Senha" type="password" {...register("Senha")} />
+        <Input placeholder="Nome" {...register("nome")} />
+        <Input placeholder="E-mail" {...register("email")}/>
+        <Input placeholder="Telefone" {...register("telefone")} />
+        <Input placeholder="Senha" type="password" {...register("senha")} />
         <Button type="submit">Cadastrar</Button>
         <H3>Já é cadastrado? Faça o login</H3>
       </Form>

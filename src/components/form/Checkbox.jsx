@@ -8,10 +8,10 @@ const Label = styled.label`
     font-weight: 400;
 `
 
-export default function Checkbox({ name, value }) {
+export default function Checkbox({ name, value, onClick, checked }) {
     return(
         <Label>
-            <input type="checkbox" name={name} value={value}/>
+            <input type="checkbox" name={name} value={value} onClick={onClick} checked={checked}/>
             {name}
         </Label>
     )
