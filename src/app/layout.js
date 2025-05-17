@@ -3,6 +3,8 @@
 import { createGlobalStyle } from "styled-components";
 import React from "react";
 
+import { AuthProvider } from "@/contexts/authContext";
+
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -20,8 +22,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <GlobalStyle />
-        {children}
+        <AuthProvider>
+          <GlobalStyle />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

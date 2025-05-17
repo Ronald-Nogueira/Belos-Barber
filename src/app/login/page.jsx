@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/authContext";
 
 import Input from "@/components/form/Input";
 import H1 from "@/components/typography/H1";
@@ -50,6 +51,7 @@ export default function LoginPage() {
   const [erro, setErro] = useState("")
 
   const router = useRouter()
+  const { login } = useAuthContext()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -59,6 +61,9 @@ export default function LoginPage() {
         email,
         senha,
       })
+      login(response.data);
+      console.log(response.data.usuario);
+
       router.push('/')
     } catch (error) {
       console.error("Erro no login:", error)
