@@ -77,10 +77,10 @@ export default function SignupPage() {
             <Checkbox name="Cliente" value="sim" onClick={handleSelectedCliente} checked={clienteSelected}/>
             <Checkbox name="Barbeiro" value="sim" onClick={handleSelectedBarbeiro} checked={barbeiroSelected}/>
         </CheckBoxContainer>
-        <Input placeholder="Nome" {...register("nome")} />
-        <Input placeholder="E-mail" {...register("email")}/>
-        <Input placeholder="Telefone" {...register("telefone")} />
-        <Input placeholder="Senha" type="password" {...register("senha")} />
+        <Input placeholder="Nome" {...register("Nome")} />
+        <Input placeholder="E-mail" {...register("Email")}/>
+        <Input placeholder="Telefone" {...register("Telefone")} />
+        <Input placeholder="Senha" type="password" {...register("Senha")} />
         <Button type="submit">Cadastrar</Button>
         <H3>Já é cadastrado? Faça o login</H3>
       </Form>
