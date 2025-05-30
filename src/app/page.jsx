@@ -3,14 +3,14 @@
 import useAuth from "@/hooks/useAuth";
 
 export default function Home() {
-  const { usuario } = useAuth();
+  const { usuario, carregado } = useAuth();
 
-  // Evita exibir conteúdo até verificar o usuário
-  if (!usuario) return <p>Carregando...</p>;
-  console.log(usuario.usuario.Nome)
+  if (!carregado) return <p>Carregando...</p>;
+  if (!usuario) return <p>Você precisa estar logado.</p>;
+
   return (
     <div>
-      <h1>Bem-vindo, {usuario.usuario.Nome}!</h1>
+      <h1>Bem-vindo, {usuario?.Nome}!</h1>
     </div>
   );
 }

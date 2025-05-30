@@ -1,18 +1,18 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuthContext } from '../contexts/authContext';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const useAuth = () => {
-  const { usuario } = useAuthContext();
+  const { usuario, carregado } = useAuthContext();
   const router = useRouter();
 
   useEffect(() => {
-    if (usuario === null) {
-      router.push('/login');
+    if (carregado && usuario === null) {
+      router.push("/login");
     }
-  }, [usuario, router]);
+  }, [carregado, usuario, router]);
 
-  return { usuario };
+  return { usuario, carregado };
 };
 
 export default useAuth;

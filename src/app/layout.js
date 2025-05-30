@@ -1,31 +1,16 @@
-"use client";
+import "./globals.css";
+import Providers from "../contexts/Providers";
 
-import { createGlobalStyle } from "styled-components";
-import React from "react";
-
-import { AuthProvider } from "@/contexts/authContext";
-
-const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html, body {
-    height: 100%;
-    font-family: Arial, sans-serif;
-  }
-`;
+export const metadata = {
+  title: "Minha Aplicação",
+  description: "Descrição",
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body>
-        <AuthProvider>
-          <GlobalStyle />
-          {children}
-        </AuthProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
