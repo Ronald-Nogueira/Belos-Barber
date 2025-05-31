@@ -3,17 +3,19 @@ import { CalendarIcon } from "@phosphor-icons/react/dist/ssr";
 
 const Container = styled.div`
     width: 70%;
-    height: 70px;
+    height: 90px;
+    padding: 0 20px;
     background-color: #404040;
     border-radius: 10px;
     display: flex;
     align-items: center;
+    gap: 15px;
 `
 
 const ServiceAndTime = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
 `
 
 const Client = styled.h2`
@@ -22,10 +24,17 @@ const Client = styled.h2`
     color: #949494;
 `
 
-const Time = styled.p`
+const P = styled.p`
     color: #949494;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 15px;
+    font-weight: lighter;
+`
+
+const Price = styled.h3`
+  font-size: 25px;
+  font-weight: bold;
+  color: #949494;
+  margin-left: auto;
 `
 
 export default function Horarios({ cliente, horario }) {
@@ -35,9 +44,11 @@ export default function Horarios({ cliente, horario }) {
     <Container>
       <CalendarIcon size={50} weight="fill" color="#FF7000" />
       <ServiceAndTime>
+        <P>{horario}</P>
         <Client>{cliente}</Client>
-        <Time>{horario}</Time>
+        <P>Cabelo</P>
       </ServiceAndTime>
+      <Price>R$ 25.00</Price>
     </Container>
   );
 }
