@@ -80,11 +80,13 @@ export default function InformationBoard({ title }) {
 
     <ServicesContainer>
     {horarios.length > 0 ? (
-        horarios.map(({ Cliente, Hora }, index) => (
+        horarios.map(({ Cliente, Hora, Servicos, Preco }, index) => (
         <ServicesInformation
             key={index}
             cliente={Cliente}
             horario={Hora}
+            servico={Servicos}
+            preco={Preco}
         />
         ))
     ) : (

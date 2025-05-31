@@ -37,7 +37,7 @@ const Price = styled.h3`
   margin-left: auto;
 `
 
-export default function Horarios({ cliente, horario }) {
+export default function Horarios({ cliente, horario, servico, preco }) {
   if (!cliente || !horario) return null;
 
   return (
@@ -46,9 +46,9 @@ export default function Horarios({ cliente, horario }) {
       <ServiceAndTime>
         <P>{horario}</P>
         <Client>{cliente}</Client>
-        <P>Cabelo</P>
+        <P>{servico}</P>
       </ServiceAndTime>
-      <Price>R$ 25.00</Price>
+      <Price>R$ {preco}</Price>
     </Container>
   );
 }
