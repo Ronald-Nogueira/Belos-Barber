@@ -28,14 +28,16 @@ const Time = styled.p`
     font-weight: bold;
 `
 
-export default function Horarios() {
-    return(
-        <Container>
-            <CalendarIcon size={50}  weight="fill" color="#FF7000" />
-            <ServiceAndTime>
-                <Client>Iago</Client>
-                <Time>8:00 - 8:30</Time>
-            </ServiceAndTime>
-        </Container>
-    )
+export default function Horarios({ cliente, horario }) {
+  if (!cliente || !horario) return null;
+
+  return (
+    <Container>
+      <CalendarIcon size={50} weight="fill" color="#FF7000" />
+      <ServiceAndTime>
+        <Client>{cliente}</Client>
+        <Time>{horario}</Time>
+      </ServiceAndTime>
+    </Container>
+  );
 }
