@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useAuthContext } from "@/contexts/AuthContext";
+import useLimiteDeDatas from "@/hooks/useLimiteDatas";
 
 import Input from "@/components/form/Input";
 import Button from "@/components/form/Button";
@@ -19,7 +20,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 30px;
-  background: linear-gradient(to bottom, #FF9B00, #FF7000);
+  background: linear-gradient(to bottom, #ff9b00, #ff7000);
 `;
 
 const Form = styled.form`
@@ -28,7 +29,7 @@ const Form = styled.form`
   justify-content: space-between;
   flex-direction: column;
   gap: 40px;
-  background-color: #1E1D1D;
+  background-color: #1e1d1d;
   padding: 50px 100px;
   border-radius: 20px;
 `;
@@ -49,6 +50,8 @@ export default function AgendamentoForm() {
   const [mensagem, setMensagem] = useState("");
 
   const { token } = useAuthContext();
+
+  const { min, max } = useLimiteDeDatas();
 
   useEffect(() => {
     const fetchProfissionais = async () => {
@@ -71,12 +74,15 @@ export default function AgendamentoForm() {
       }
 
       try {
-        const response = await axios.get("http://localhost:3001/agendamentos/disponiveis", {
-          params: {
-            data,
-            idProfissional
+        const response = await axios.get(
+          "http://localhost:3001/agendamentos/disponiveis",
+          {
+            params: {
+              data,
+              idProfissional,
+            },
           }
-        });
+        );
 
         setHorariosDisponiveis(response.data);
       } catch (error) {
@@ -127,6 +133,8 @@ export default function AgendamentoForm() {
         <Input
           type="date"
           value={data}
+          min={min}
+          max={max}
           onChange={(e) => setData(e.target.value)}
         />
 
@@ -150,7 +158,9 @@ export default function AgendamentoForm() {
           disabled={horariosDisponiveis.length === 0}
         >
           <option value="">
-            {horariosDisponiveis.length ? "Selecione um horário" : "Nenhum horário disponível"}
+            {horariosDisponiveis.length
+              ? "Selecione um horário"
+              : "Nenhum horário disponível"}
           </option>
           {horariosDisponiveis.map((hora) => (
             <option key={hora} value={hora}>
@@ -159,7 +169,9 @@ export default function AgendamentoForm() {
           ))}
         </Select>
 
-        <Button type="submit" disabled={!hora}>Agendar</Button>
+        <Button type="submit" disabled={!hora}>
+          Agendar
+        </Button>
       </Form>
 
       {mensagem && <Confirmed />}
