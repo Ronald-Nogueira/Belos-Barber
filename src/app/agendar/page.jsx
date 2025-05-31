@@ -8,23 +8,18 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import Input from "@/components/form/Input";
 import Button from "@/components/form/Button";
 import H1 from "@/components/typography/H1";
-import H3 from "@/components/typography/H3";
 import Select from "@/components/form/Select";
 import Confirmed from "@/components/confirmed/Confirmed";
 
 const Container = styled.div`
   height: 100vh;
-  width: 100vw;  
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 30px;
-  background: linear-gradient(
-    to bottom, 
-    #FF9B00,   /* laranja claro */
-    #FF7000  /* laranja mais escuro */
-  );
+  background: linear-gradient(to bottom, #FF9B00, #FF7000);
 `;
 
 const Form = styled.form`
@@ -32,16 +27,22 @@ const Form = styled.form`
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
   background-color: #1E1D1D;
   padding: 50px 100px;
   border-radius: 20px;
 `;
 
+const Label = styled.label`
+  color: white;
+  font-weight: bold;
+  align-self: flex-start;
+`;
 
 export default function AgendamentoForm() {
   const [data, setData] = useState("");
   const [hora, setHora] = useState("");
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [profissionais, setProfissionais] = useState([]);
   const [idProfissional, setIdProfissional] = useState("");
   const [status, setStatus] = useState("pendente");
@@ -50,7 +51,6 @@ export default function AgendamentoForm() {
   const { token } = useAuthContext();
 
   useEffect(() => {
-    // Buscar profissionais disponíveis
     const fetchProfissionais = async () => {
       try {
         const response = await axios.get("http://localhost:3001/profissionais");
@@ -62,6 +62,31 @@ export default function AgendamentoForm() {
 
     fetchProfissionais();
   }, []);
+
+  useEffect(() => {
+    const buscarHorariosDisponiveis = async () => {
+      if (!data || !idProfissional) {
+        setHorariosDisponiveis([]);
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:3001/agendamentos/disponiveis", {
+          params: {
+            data,
+            idProfissional
+          }
+        });
+
+        setHorariosDisponiveis(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar horários disponíveis:", error);
+        setHorariosDisponiveis([]);
+      }
+    };
+
+    buscarHorariosDisponiveis();
+  }, [data, idProfissional]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +111,7 @@ export default function AgendamentoForm() {
       setData("");
       setHora("");
       setIdProfissional("");
+      setHorariosDisponiveis([]);
     } catch (error) {
       console.error("Erro ao criar agendamento:", error);
       setMensagem("Erro ao criar agendamento");
@@ -96,16 +122,15 @@ export default function AgendamentoForm() {
     <Container>
       <Form onSubmit={handleSubmit}>
         <H1>Faça seu agendamento!</H1>
+
+        <Label>Data:</Label>
         <Input
           type="date"
           value={data}
           onChange={(e) => setData(e.target.value)}
         />
-        <Input
-          type="time"
-          value={hora}
-          onChange={(e) => setHora(e.target.value)}
-        />
+
+        <Label>Profissional:</Label>
         <Select
           value={idProfissional}
           onChange={(e) => setIdProfissional(e.target.value)}
@@ -117,9 +142,27 @@ export default function AgendamentoForm() {
             </option>
           ))}
         </Select>
-        <Button type="submit">Agendar</Button>
+
+        <Label>Horário:</Label>
+        <Select
+          value={hora}
+          onChange={(e) => setHora(e.target.value)}
+          disabled={horariosDisponiveis.length === 0}
+        >
+          <option value="">
+            {horariosDisponiveis.length ? "Selecione um horário" : "Nenhum horário disponível"}
+          </option>
+          {horariosDisponiveis.map((hora) => (
+            <option key={hora} value={hora}>
+              {hora}
+            </option>
+          ))}
+        </Select>
+
+        <Button type="submit" disabled={!hora}>Agendar</Button>
       </Form>
-      {mensagem && <Confirmed/>}
+
+      {mensagem && <Confirmed />}
     </Container>
   );
 }
