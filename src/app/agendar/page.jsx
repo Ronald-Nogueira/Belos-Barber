@@ -46,6 +46,8 @@ export default function AgendamentoForm() {
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [profissionais, setProfissionais] = useState([]);
   const [idProfissional, setIdProfissional] = useState("");
+  const [servicos, setServicos] = useState([]);
+  const [idServicos, setIdServicos] = useState("");
   const [status, setStatus] = useState("pendente");
   const [mensagem, setMensagem] = useState("");
 
@@ -64,6 +66,17 @@ export default function AgendamentoForm() {
     };
 
     fetchProfissionais();
+
+    const fetchServicos = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/servicos");
+        setServicos(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar serviços:", error);
+      }
+    };
+
+    fetchServicos();
   }, []);
 
   useEffect(() => {
@@ -105,6 +118,7 @@ export default function AgendamentoForm() {
           Hora: hora,
           Status: status,
           ID_Profissional: idProfissional,
+          ID_Servico: idServicos
         },
         {
           headers: {
@@ -117,6 +131,7 @@ export default function AgendamentoForm() {
       setData("");
       setHora("");
       setIdProfissional("");
+      setIdServicos("");
       setHorariosDisponiveis([]);
     } catch (error) {
       console.error("Erro ao criar agendamento:", error);
@@ -146,6 +161,19 @@ export default function AgendamentoForm() {
           <option value="">Selecione um profissional</option>
           {profissionais.map((prof) => (
             <option key={prof.ID_Profissional} value={prof.ID_Profissional}>
+              {prof.Nome}
+            </option>
+          ))}
+        </Select>
+
+        <Label>Serviços:</Label>
+        <Select
+          value={idServicos}
+          onChange={(e) => setIdServicos(e.target.value)}
+        >
+          <option value="">Selecione um serviço</option>
+          {servicos.map((prof) => (
+            <option key={prof.ID_Servico} value={prof.ID_Servico}>
               {prof.Nome}
             </option>
           ))}
