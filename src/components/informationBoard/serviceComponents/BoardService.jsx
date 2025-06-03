@@ -5,7 +5,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 import ServiceCard from "./ServiceCard";
-import Menu from "./Menu";
+import Menu from "../Menu";
 import { PlusCircleIcon } from "@phosphor-icons/react/dist/ssr";
 
 const Container = styled.div`

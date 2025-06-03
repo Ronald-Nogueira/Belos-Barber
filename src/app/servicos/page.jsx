@@ -1,7 +1,7 @@
 "use client"
 import styled from "styled-components";
 
-import BoardService from "@/components/informationBoard/BoardService";
+import BoardService from "@/components/informationBoard/serviceComponents/BoardService";
 
 const Container = styled.div`
   height: 100vh;

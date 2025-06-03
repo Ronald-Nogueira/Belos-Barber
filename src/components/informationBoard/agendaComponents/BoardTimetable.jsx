@@ -5,8 +5,8 @@ import axios from "axios";
 import styled from "styled-components";
 
 import Horarios from "./Horarios";
-import Input from "../form/Input";
-import Menu from "./Menu";
+import Input from "@/components/form/Input";
+import Menu from "../Menu";
 
 import { useAuthContext } from "@/contexts/AuthContext";
 
