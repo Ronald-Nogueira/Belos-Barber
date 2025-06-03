@@ -1,8 +1,7 @@
 "use client"
-
 import styled from "styled-components";
 
-import BoardTimetable from "@/components/informationBoard/BoardTimetable";
+import BoardService from "@/components/informationBoard/BoardService";
 
 const Container = styled.div`
   height: 100vh;
@@ -13,12 +12,12 @@ const Container = styled.div`
   flex-direction: column;
   gap: 30px;
   background: linear-gradient(to bottom, #FF9B00, #FF7000);
-`;
+`
 
-export default function HorariosMarcados() {
+export default function Servicos() {
     return(
         <Container>
-          <BoardTimetable title="Agenda"/>
+            <BoardService title="Serviços"/>
         </Container>
     )
 }
