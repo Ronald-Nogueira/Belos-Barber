@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-import ServicesInformation from "./Horarios";
+import Horarios from "./Horarios";
 import Input from "../form/Input";
 import Menu from "./Menu";
 
@@ -81,7 +81,7 @@ export default function InformationBoard({ title }) {
     <ServicesContainer>
     {horarios.length > 0 ? (
         horarios.map(({ Cliente, Hora, Servicos, Preco }, index) => (
-        <ServicesInformation
+        <Horarios
             key={index}
             cliente={Cliente}
             horario={Hora}
