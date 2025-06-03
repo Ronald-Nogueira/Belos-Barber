@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 
-import InformationBoard from "@/components/informationBoard/InformationBoard";
+import BoardTimetable from "@/components/informationBoard/BoardTimetable";
 
 const Container = styled.div`
   height: 100vh;
