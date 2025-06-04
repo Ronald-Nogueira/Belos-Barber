@@ -1,9 +1,15 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 import Menu from "../Menu";
 import H3 from "@/components/typography/H3";
 import Select from "@/components/form/Select";
 import Button from "@/components/form/Button";
+
+import { useAuthContext } from "@/contexts/AuthContext";
 
 const Container = styled.div`
   width: 40%;
@@ -68,36 +74,86 @@ const Data = styled.h3`
 `;
 
 const ServicesRequest = styled.div`
-    display: flex;
-    gap: 20px;
-`
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+`;
 
 export default function BoardRelatorio({ title }) {
+  const [periodo, setPeriodo] = useState("mensal");
+  const [dados, setDados] = useState([]);
+  const [faturamentoTotal, setFaturamentoTotal] = useState(0);
+  const [agendamentosTotais, setAgendamentosTotais] = useState(0);
+
+  const { token } = useAuthContext();
+
+  useEffect(() => {
+    async function fetchRelatorio() {
+      try {
+        const response = await axios.get(`http://localhost:3001/relatorio?periodo=${periodo}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        const dadosAPI = response.data;
+
+        const totalFaturamento = dadosAPI.reduce(
+          (acc, item) => acc + parseFloat(item.faturamento),
+          0
+        );
+
+        const totalAgendamentos = dadosAPI.reduce(
+          (acc, item) => acc + item.totalAgendamentos,
+          0
+        );
+
+        setDados(dadosAPI);
+        setFaturamentoTotal(totalFaturamento.toFixed(2));
+        setAgendamentosTotais(totalAgendamentos);
+      } catch (error) {
+        console.error("Erro ao buscar relatório:", error);
+        setDados([]);
+        setFaturamentoTotal(0);
+        setAgendamentosTotais(0);
+      }
+    }
+
+    if (token) fetchRelatorio();
+  }, [periodo, token]);
+
+  const handlePeriodoChange = (e) => {
+    setPeriodo(e.target.value);
+  };
+
   return (
     <Container>
       <Title>{title}</Title>
       <Content>
-        <H3>Escolha a frequencia do relatório!</H3>
+        <H3>Escolha a frequência do relatório!</H3>
         <Form>
-          <Select>
-            <option value="">mensal</option>
-            <option value="">semanal</option>
+          <Select value={periodo} onChange={handlePeriodoChange}>
+            <option value="mensal">Mensal</option>
+            <option value="semanal">Semanal</option>
           </Select>
-          <Button>Gerar</Button>
+          <Button type="button">Gerar</Button>
         </Form>
         <RelatorioContainer>
           <InfoRelatorio>
             <H3>Faturamento Total</H3>
-            <Data>R$ 35.00</Data>
+            <Data>R$ {faturamentoTotal}</Data>
           </InfoRelatorio>
           <InfoRelatorio>
             <H3>Total de Agendamentos</H3>
-            <Data>4</Data>
+            <Data>{agendamentosTotais}</Data>
           </InfoRelatorio>
-          <H3>Quantidade de servicos requisitados!</H3>
+          <H3>Quantidade de serviços requisitados!</H3>
           <ServicesRequest>
-            <Data>Cabelo</Data>
-            <Data>Barba</Data>
+            {dados.map(({ servico, quantidadeServico }, index) => (
+              <Data key={index}>
+                {servico} ({quantidadeServico})
+              </Data>
+            ))}
           </ServicesRequest>
         </RelatorioContainer>
       </Content>
