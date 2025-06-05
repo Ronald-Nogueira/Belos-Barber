@@ -43,9 +43,9 @@ export default function SignupPage() {
         let url = ''
 
         if (clienteSelected) {
-          url = 'http://localhost:3001/clientes'
+          url = 'https://belobarberapi-production.up.railway.app/clientes'
         } else if (barbeiroSelected) {
-          url = 'http://localhost:3001/profissionais'
+          url = 'https://belobarberapi-production.up.railway.app/profissionais'
         } else {
           alert("Por favor, selecione cliente ou profissional")
           return;

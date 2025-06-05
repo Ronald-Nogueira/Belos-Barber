@@ -58,7 +58,7 @@ export default function AgendamentoForm() {
   useEffect(() => {
     const fetchProfissionais = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/profissionais");
+        const response = await axios.get("https://belobarberapi-production.up.railway.app/profissionais");
         setProfissionais(response.data);
       } catch (error) {
         console.error("Erro ao buscar profissionais:", error);
@@ -69,7 +69,7 @@ export default function AgendamentoForm() {
 
     const fetchServicos = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/servicos");
+        const response = await axios.get("https://belobarberapi-production.up.railway.app/servicos");
         setServicos(response.data);
       } catch (error) {
         console.error("Erro ao buscar serviços:", error);
@@ -88,7 +88,7 @@ export default function AgendamentoForm() {
 
       try {
         const response = await axios.get(
-          "http://localhost:3001/agendamentos/disponiveis",
+          "https://belobarberapi-production.up.railway.app/agendamentos/disponiveis",
           {
             params: {
               data,
@@ -112,7 +112,7 @@ export default function AgendamentoForm() {
 
     try {
       await axios.post(
-        "http://localhost:3001/agendamentos",
+        "https://belobarberapi-production.up.railway.app/agendamentos",
         {
           Data: data,
           Hora: hora,

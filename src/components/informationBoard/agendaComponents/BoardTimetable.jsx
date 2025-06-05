@@ -52,7 +52,7 @@ export default function BoardTimetable({ title }) {
     }
 
     try {
-      const response = await axios.get("http://localhost:3001/agendamentos/agendados", {
+      const response = await axios.get("https://belobarberapi-production.up.railway.app/agendados", {
         params: { data: dataSelecionada, idProfissional },
         headers: { Authorization: `Bearer ${token}` },
       });

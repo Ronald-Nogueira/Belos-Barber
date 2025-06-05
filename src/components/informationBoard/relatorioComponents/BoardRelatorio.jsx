@@ -90,7 +90,7 @@ export default function BoardRelatorio({ title }) {
   useEffect(() => {
     async function fetchRelatorio() {
       try {
-        const response = await axios.get(`http://localhost:3001/relatorio?periodo=${periodo}`, {
+        const response = await axios.get(`https://belobarberapi-production.up.railway.app/relatorio?periodo=${periodo}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

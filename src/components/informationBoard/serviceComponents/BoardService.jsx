@@ -52,7 +52,7 @@ export default function BoardService({ title }) {
   useEffect(() => {
     const fetchServicos = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/servicos");
+        const response = await axios.get("https://belobarberapi-production.up.railway.app/servicos");
         setServicos(response.data);
       } catch (error) {
         console.error("Erro ao buscar serviços:", error);
